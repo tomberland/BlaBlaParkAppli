@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements LocationListener {
             locMgr.removeUpdates(this);
         } else {
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
+//test
 //            latitude.setText("Location not available");
 //            longitude.setText(pb.toString());
         }
