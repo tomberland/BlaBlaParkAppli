@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.example.marc.osmtest2; 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Activity; 
+</span><span class="s0">import </span><span class="s1">android.location.Criteria; 
+</span><span class="s0">import </span><span class="s1">android.location.Location; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationListener; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationManager; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationProvider; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.ActionBarActivity; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.view.Menu; 
+</span><span class="s0">import </span><span class="s1">android.view.MenuItem; 
+</span><span class="s0">import </span><span class="s1">android.view.View; 
+</span><span class="s0">import </span><span class="s1">android.widget.Button; 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView; 
+ 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.MapView; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.tileprovider.tilesource.TileSourceFactory; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.util.GeoPoint; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.MapController; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.overlay.OverlayItem; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.overlay.ItemizedOverlay; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.overlay.ItemizedIconOverlay; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.ResourceProxy; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.DefaultResourceProxyImpl; 
+</span><span class="s0">import </span><span class="s1">org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay; 
+ 
+</span><span class="s0">import </span><span class="s1">java.nio.charset.Charset; 
+ 
+ 
+</span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">Activity </span><span class="s0">implements </span><span class="s1">LocationListener { 
+ 
+    MapView map; 
+    TextView longitude ; 
+    TextView latitude; 
+    MyLocationNewOverlay myLocation; 
+    LocationManager locMgr; 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        Button localisation = (Button)findViewById(R.id.button); 
+        longitude = (TextView) findViewById(R.id.textView3); 
+        latitude = (TextView) findViewById(R.id.textView2); 
+ 
+        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE); 
+ 
+        initializeMap(); 
+ 
+        View.OnClickListener buttonListener = </span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+ 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+             </span><span class="s2">//   longitude.setText(String.valueOf(myLocation.getMyLocation().getLongitude()) );</span><span class="s1"> 
+             </span><span class="s2">//   latitude.setText(String.valueOf(myLocation.getMyLocation().getLatitude()) );</span><span class="s1"> 
+                initializeLocalization(); 
+            } 
+        }; 
+        localisation.setOnClickListener(buttonListener); 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">private void </span><span class="s1">initializeLocalization() { 
+ 
+ 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">initializeMap(){ 
+        map = (MapView) findViewById(R.id.mapview); 
+        map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE); 
+        GeoPoint startPoint = </span><span class="s0">new </span><span class="s1">GeoPoint(</span><span class="s3">52370816</span><span class="s1">, </span><span class="s3">9735936</span><span class="s1">); 
+        MapController mapController = (MapController) map.getController(); 
+        mapController.setCenter(startPoint); 
+        map.setBuiltInZoomControls(</span><span class="s0">true</span><span class="s1">); 
+        map.setMultiTouchControls(</span><span class="s0">true</span><span class="s1">); 
+        mapController.setZoom(</span><span class="s3">10</span><span class="s1">); 
+        map.setUseDataConnection(</span><span class="s0">true</span><span class="s1">); 
+ 
+    } 
+ 
+    </span><span class="s0">protected void </span><span class="s1">onResume() { 
+ 
+        </span><span class="s0">super</span><span class="s1">.onResume(); 
+        Criteria criteria = </span><span class="s0">new </span><span class="s1">Criteria(); 
+        String provider = locMgr.getBestProvider(criteria, </span><span class="s0">true</span><span class="s1">); 
+        Location location = locMgr.getLastKnownLocation(provider); 
+        Boolean pb = locMgr.isProviderEnabled(provider); 
+ 
+        </span><span class="s0">if </span><span class="s1">(location != </span><span class="s0">null</span><span class="s1">) { 
+            System.out.println(</span><span class="s4">&quot;Provider &quot; </span><span class="s1">+ provider + </span><span class="s4">&quot; has been selected.&quot;</span><span class="s1">); 
+            onLocationChanged(location); 
+            locMgr.removeUpdates(</span><span class="s0">this</span><span class="s1">); 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, </span><span class="s3">0</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, </span><span class="s0">this</span><span class="s1">); 
+            latitude.setText(</span><span class="s4">&quot;Location not available&quot;</span><span class="s1">); 
+            longitude.setText(pb.toString()); 
+        } 
+ 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">public void </span><span class="s1">onLocationChanged(Location location) { 
+        </span><span class="s0">int </span><span class="s1">lat = (</span><span class="s0">int</span><span class="s1">) (location.getLatitude()); 
+        </span><span class="s0">int </span><span class="s1">lng = (</span><span class="s0">int</span><span class="s1">) (location.getLongitude()); 
+        latitude.setText(String.valueOf(lat)); 
+        longitude.setText(String.valueOf(lng)); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onStatusChanged(String provider, </span><span class="s0">int </span><span class="s1">status, Bundle extras) { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onProviderEnabled(String provider) { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onProviderDisabled(String provider) { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onCreateOptionsMenu(Menu menu) { 
+        </span><span class="s2">// Inflate the menu; this adds items to the action bar if it is present.</span><span class="s1"> 
+        getMenuInflater().inflate(R.menu.menu_main, menu); 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onOptionsItemSelected(MenuItem item) { 
+        </span><span class="s2">// Handle action bar item clicks here. The action bar will</span><span class="s1"> 
+        </span><span class="s2">// automatically handle clicks on the Home/Up button, so long</span><span class="s1"> 
+        </span><span class="s2">// as you specify a parent activity in AndroidManifest.xml.</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">id = item.getItemId(); 
+ 
+        </span><span class="s2">//noinspection SimplifiableIfStatement</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_settings) { 
+            </span><span class="s0">return true</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">return super</span><span class="s1">.onOptionsItemSelected(item); 
+    } 
+} 
+</span></pre>
+</body>
+</html>
